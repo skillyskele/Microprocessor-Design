@@ -13,7 +13,7 @@ Welcome to my microprocessor design project repository! This repository contains
 
 ### 🔍 Sequence Detector
 
-In the `Practicing the Basics` folder, I have implemented a sequence detector using basic digital design techniques such as Karnaugh map simplification and Moore and Mealy state machines. A formal write-up will be added soon.
+In the `Practicing the Basics` folder, I have implemented basic circuits such as a CLA and a sequence detector, using basic digital design techniques such as Karnaugh map simplification and Moore and Mealy state machines. A formal write-up will be added soon, but for now, it's just my calculations and notes on paper.
 
 - **Karnaugh Map Simplification**: Used for minimizing Boolean expressions.
 - **Moore and Mealy State Machines**: Implemented both types of state machines for the sequence detector.
