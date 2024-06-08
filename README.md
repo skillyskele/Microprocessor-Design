@@ -32,13 +32,9 @@ In the `Practicing the Basics` folder, I have implemented basic circuits such as
 - Test the processors on an FPGA and optimize the VHDL code.
 - Continuously update the repository with new digital design projects and learning experiences.
 
-## 🤝 Contributing
-
-This is a personal project, but if you have any suggestions or find any issues, feel free to open an issue or submit a pull request.
-
 ## 📧 Contact
 
-If you have any questions or want to discuss microprocessor design, feel free to reach out to me via GitHub.
+If you have any questions or want to discuss microprocessor design, feel free to reach out to me at nkim56@jh.edu.
 
 ---
 
