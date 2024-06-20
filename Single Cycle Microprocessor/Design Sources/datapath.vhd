@@ -42,7 +42,9 @@ entity datapath is
         
         -- result of ALU (final calculated address), result of rd2
         -- don't understand why we can't just declare these as signals though 
-        aluout, writedata: buffer std_logic_vector(31 downto 0);
+        aluout: out std_logic_vector(31 downto 0);
+        
+        writedata:  out std_logic_vector(31 downto 0);
         
         -- control signals
         pcsrc: in   std_logic;
@@ -57,7 +59,7 @@ entity datapath is
         zero: out std_logic;
         
         -- program counter
-        pc: buffer  std_logic_vector(31 downto 0)
+        pc: out  std_logic_vector(31 downto 0)
    );
         
 end datapath;
@@ -65,9 +67,9 @@ end datapath;
 architecture arch of datapath is
     component alu
         port(
-            a, b:  in  std_logic_vector(31 downto 0);
+            srca, srcb:  in  std_logic_vector(31 downto 0);
             alucontrol: in  std_logic_vector(2 downto 0);
-            result: buffer std_logic_vector(31 downto 0);
+            aluout: out std_logic_vector(31 downto 0);
             zero:    out std_logic
         );
     end component;
@@ -112,12 +114,18 @@ architecture arch of datapath is
         y:  out std_logic_vector(width-1 downto 0)
     );
     end component;
+    signal writedata_buf, aluout_buf, pc_buf: std_logic_vector(31 downto 0);
     signal writereg: std_logic_vector(4 downto 0);
     signal signimm, signimm_x4: std_logic_vector(31 downto 0);
     signal srca, srcb, result: std_logic_vector(31 downto 0); -- for R type instructions
     signal pc_jump, pc_next, pc_nextbr, pc_plus4, pc_branch: std_logic_vector(31 downto 0);
+    
 
 begin
+    writedata <= writedata_buf;
+    aluout <= aluout_buf;
+    pc <= pc_buf;
+
 -- Register file logic
 rf: regfile port map(
     clk=>clk, 
@@ -127,7 +135,7 @@ rf: regfile port map(
     wa3=>writereg, 
     wd3=>result,
     rd1=>srca,
-    rd2=>writedata); -- writedata will be rd2, while srcb is either rd2 or signimm
+    rd2=>writedata_buf); -- writedata will be rd2, while srcb is either rd2 or signimm
 
 wa3_mux: mux2 generic map(5) port map(
     d0=>instr(20 downto 16), -- rt
@@ -139,7 +147,7 @@ wa3_mux: mux2 generic map(5) port map(
 -- since R instructions should read aluout directly to the register file, 
 -- but I instructions should send readdata
 result_mux: mux2 generic map(32) port map(
-    d0=>aluout,
+    d0=>aluout_buf,
     d1=>readdata,
     s=>memtoreg,
     y=>result);
@@ -151,12 +159,18 @@ sign_extender: sign_extend port map(
 -- ALU logic
    
 srcb_mux: mux2 generic map(32) port map(
-    d0=>writedata, -- rt
+    d0=>writedata_buf, -- rt
     d1=>signimm, -- rd
     s=>alusrc,
     y=>srcb);
     
-mainalu: alu port map(srca, srcb, alucontrol, aluout, zero);
+mainalu: alu port map(
+    srca=>srca,
+    srcb=>srcb,
+    alucontrol=>alucontrol,
+    aluout=>aluout_buf,
+    zero=>zero
+);
    
 -- next PC logic
 pc_jump <= pc_plus4(31 downto 28) & instr(25 downto 0) & "00"; -- shift left by 2
@@ -165,11 +179,11 @@ pcreg: sync_ff generic map(32) port map(
     clk=>clk,
     rst=>rst,
     d=>pc_next,
-    q=>pc
+    q=>pc_buf
 );
 
 pc_add4: adder port map(
-    a=>pc,
+    a=>pc_buf,
     b=>x"00000004", -- hexadecimal for 4
     y=>pc_plus4);
     

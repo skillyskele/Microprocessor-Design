@@ -62,6 +62,8 @@ process(opcode) begin
                          aluop_control <= "00";
         when "000010" => controls <= "0000001";
                          aluop_control <= "00";  
+        when others => controls <= "-------";
+                         aluop_control <= "--";
               
     end case;
 end process;
