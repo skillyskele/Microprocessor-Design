@@ -1,6 +1,8 @@
 library IEEE;
   use IEEE.STD_LOGIC_1164.all;
-  use IEEE.STD_LOGIC_UNSIGNED.all;
+  use IEEE.NUMERIC_STD.ALL;
+  use IEEE.std_logic_unsigned.ALL;
+  use STD.TEXTIO.all;
 
 entity testbench is
 end entity;
@@ -9,13 +11,26 @@ architecture test of testbench is
   component top
     port (clk, reset         : in  STD_LOGIC;
           writedata, dataadr : out STD_LOGIC_VECTOR(31 downto 0);
+          instructions: out std_logic_vector(31 downto 0);
           memwrite           : out STD_LOGIC);
   end component;
-  signal writedata, dataadr   : STD_LOGIC_VECTOR(31 downto 0);
+  signal writedata, dataadr, instructions   : STD_LOGIC_VECTOR(31 downto 0);
   signal clk, reset, memwrite : STD_LOGIC;
+  
+  file output_file : text open write_mode is "C:\Users\natha\Desktop\Digital Design Portfolio\Microprocessor-Design\simulation_output.txt";
+
 begin
 
-  dut: top port map (clk, reset, writedata, dataadr, memwrite); -- we want to see clk, reset, writedata, dataadr, memwrite as we test
+  dut: top port map (clk, reset, writedata, dataadr, instructions, memwrite); -- we want to see clk, reset, writedata, dataadr, memwrite as we test
+
+process (instructions)
+    variable row : line;
+    variable instr_bit : integer;
+begin
+    instr_bit := TO_INTEGER(unsigned(instructions));
+    write(row, instr_bit);
+    writeline(output_file, row);  -- Optionally write to a file
+end process;
 
   process
   begin

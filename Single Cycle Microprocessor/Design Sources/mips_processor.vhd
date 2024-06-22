@@ -96,7 +96,7 @@ begin
       clk        => clk,
       rst        => rst,
       readdata   => readdata,
-      instr      => instr,
+      instr      => instr, -- only 25 downto 0 are used...31 downto 26 is used by the controller, so expect datapath instr[31:26] to be undriven!
       aluout     => aluout,
       writedata  => writedata,
       pcsrc      => pcsrc,

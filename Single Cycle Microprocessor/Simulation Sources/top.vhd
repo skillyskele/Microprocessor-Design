@@ -5,6 +5,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity top is
   Port (clk, reset:    in std_logic;
         writedata, dataadr: out std_logic_vector(31 downto 0);
+        instructions: out std_logic_vector(31 downto 0);
         memwrite:   out std_logic);
 end top;
 
@@ -30,7 +31,7 @@ architecture test of top is
     signal writedata_buf, dataadr_buf: std_logic_vector(31 downto 0);
     signal memwrite_buf: std_logic;
     begin
-        mips1: MIPS port map(clk=>clk, rst=>reset, pc=>pc, instr=>instr, memwrite=>memwrite_buf, aluout=>dataadr, 
+        mips1: MIPS port map(clk=>clk, rst=>reset, pc=>pc, instr=>instr, memwrite=>memwrite_buf, aluout=>dataadr_buf, 
                              writedata=>writedata_buf, readdata=>readdata);
         imem1: imem port map(a=>pc(7 downto 2), rd=>instr);
         dmem1: dmem port map(clk=>clk, we=>memwrite_buf, a=>dataadr_buf, wd=>writedata_buf, rd=>readdata);
@@ -38,6 +39,7 @@ architecture test of top is
         memwrite <= memwrite_buf;
         dataadr <= dataadr_buf;
         writedata <= writedata_buf;
+        instructions <= instr;
     
 
 end test;

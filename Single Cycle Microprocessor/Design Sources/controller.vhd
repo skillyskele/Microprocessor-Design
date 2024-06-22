@@ -68,7 +68,7 @@ begin
         jump=>jump,
         aluop=>aluop);
         
-    aludec: alu_decoder port map(
+    aludec: alu_decoder port map( -- expect funct[5:4] to be undriven, as the digital logic has been simplified!
         funct=>funct,
         aluop=>aluop,
         alucontrol=>alucontrol);

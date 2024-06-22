@@ -187,7 +187,7 @@ pc_add4: adder port map(
     b=>x"00000004", -- hexadecimal for 4
     y=>pc_plus4);
     
-signimm_sl2: sl2 port map(
+signimm_sl2: sl2 port map( -- expect that a[31:30] is unconnected, since they aren't used and are simply shifted out.
     a=>signimm,
     y=>signimm_x4);
 
