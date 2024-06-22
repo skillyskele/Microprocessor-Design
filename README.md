@@ -10,7 +10,7 @@ Welcome to my microprocessor design project repository! This repository contains
 4. **FPGA Programming**: Program the designed processors on an FPGA using VHDL.
 
 ## 🚀 Current Progress
-1. Test current single cycle processor implementation.
+1. Building the control logic for multi-cycle processor
 
 ### 🔍 Sequence Detector
 
