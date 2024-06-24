@@ -10,7 +10,7 @@ Welcome to my microprocessor design project repository! This repository contains
 4. **FPGA Programming**: Program the designed processors on an FPGA using VHDL.
 
 ## 🚀 Current Progress
-1. Building the control logic for multi-cycle processor
+1. Writing testbench for multi-cycle microprocessor
 
 ### 🔍 Sequence Detector
 
@@ -28,14 +28,13 @@ In the `Practicing the Basics` folder, I have implemented basic circuits such as
 
 ## 📅 Future Plans
 
-- Complete the multi-cycle and pipelined processor designs.
 - Write formal documentation and explanations for each design.
 - Test the processors on an FPGA and optimize the VHDL code.
 - Continuously update the repository with new digital design projects and learning experiences.
 
 ## 📧 Contact
 
-If you have any questions or want to discuss microprocessor design, feel free to reach out to me at nkim56@jh.edu.
+If you have any advice or want to discuss microprocessor design, feel free to reach out to me at nkim56@jh.edu.
 
 ---
 
